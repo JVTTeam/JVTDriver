@@ -1,0 +1,8 @@
+{
+	"alwaysActivate": true,
+	"name" : "jvt",
+	"directory" : "",
+	"resourceOnly" : false,
+
+	"hmd_presence" : []
+}

@@ -1,0 +1,12 @@
+{
+   "driver_jvt" : {
+      "enable": true,
+      "model_number": "MyControllerModelNumber 1"
+   },
+   "driver_jvt_left_controller": {
+      "serial_number": "MyLeftControllerABC123"
+   },
+   "driver_jvt_right_controller": {
+      "serial_number": "MyRightControllerXYZ789"
+   }
+}
