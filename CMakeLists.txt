@@ -22,4 +22,5 @@ elseif (APPLE)
     set(PLATFORM_NAME "osx")
 endif ()
 
+add_subdirectory(JVTDriver-Communication)
 add_subdirectory(JVTDriver-OpenVR)

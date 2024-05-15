@@ -9,6 +9,8 @@
 
 #include "hand_simulation.h"
 
+#include "communication/feedback_comm_manager.h"
+
 #include "openvr_driver.h"
 
 enum Component
@@ -71,4 +73,6 @@ private:
 	std::string my_controller_serial_number_;
 
 	std::array<vr::VRInputComponentHandle_t, Component_MAX> input_handles_;
+
+	std::unique_ptr<FeedbackCommManager> m_feedbackCommManager;
 };

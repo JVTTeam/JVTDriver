@@ -4,6 +4,8 @@
 #include "driverlog.h"
 #include "vrmath.h"
 
+#include "communication/feedback_comm_manager.h"
+
 // Let's create some variables for strings used in getting settings.
 // This is the section where all of the settings we want are stored. A section name can be anything,
 // but if you want to store driver specific settings, it's best to namespace the section with the driver identifier
@@ -109,6 +111,10 @@ vr::EVRInitError ControllerDeviceDriver::Activate( uint32_t unObjectId )
 	is_active_ = true;
 	my_input_thread_ = std::thread( &ControllerDeviceDriver::MyInputThread, this );
 
+	// Initialise our feedback communication manager
+	m_feedbackCommManager = std::make_unique<FeedbackCommManager>( my_controller_role_ == vr::TrackedControllerRole_LeftHand ? HandSide::Left : HandSide::Right );
+	m_feedbackCommManager->Init();
+
 	// We've activated everything successfully!
 	// Let's tell SteamVR that by saying we don't have any errors.
 	return vr::VRInitError_None;
@@ -194,7 +200,7 @@ vr::DriverPose_t ControllerDeviceDriver::GetPose()
 	const vr::HmdVector3_t offset_position = {
 		my_controller_role_ == vr::TrackedControllerRole_LeftHand ? -0.15f : 0.15f, // translate the controller left/right 0.15m depending on its role
 		0.1f,																		// shift it up a little to make it more in view
-		-0.5f,																		// put each controller 0.5m forward in front of the hmd so we can see it.
+		-0.9f,																		// put each controller 0.5m forward in front of the hmd so we can see it.
 	};
 
 	// Rotate our offset by the hmd quaternion (so the controllers are always facing towards us), and add then add the position of the hmd to put it into position.

@@ -3,6 +3,8 @@
 
 #include "driverlog.h"
 
+#include "communication/util/logger.h"
+
 //-----------------------------------------------------------------------------
 // Purpose: This is called by vrserver after it receives a pointer back from HmdDriverFactory.
 // You should do your resources allocations here (**not** in the constructor).
@@ -12,6 +14,24 @@ vr::EVRInitError DeviceProvider::Init( vr::IVRDriverContext *pDriverContext )
 	// We need to initialise our driver context to make calls to the server.
 	// OpenVR provides a macro to do this for us.
 	VR_INIT_SERVER_DRIVER_CONTEXT( pDriverContext );
+
+	Logger::GetInstance().Subscribe([](const std::string &message, Logger::Level level)
+                                    {
+        std::string prefix;
+		switch (level)
+        {
+        case Logger::Level::Info:
+            prefix = "[INFO] ";
+            break;
+        case Logger::Level::Warning:
+            prefix = "[WARNING] ";
+            break;
+        case Logger::Level::Error:
+            prefix = "[ERROR] ";
+            break;
+        }
+
+        DriverLog("%s%s\n", prefix.c_str(), message.c_str()); });
 
 	// Let's add our controllers to the system.
 
